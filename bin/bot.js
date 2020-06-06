@@ -15,6 +15,7 @@ var opts = {
     ]
 };
 
+var allowQueue = true;
 var queue = []
 
 
@@ -45,14 +46,14 @@ function onMessageHandler(target, context, msg, self) {
 
     // If the command is known, let's execute it
     let user = context['username'];
-    if (commandName === '!random') {
+    if (commandName === '!next') {
         if (commandAllowed(context)) {
             if (queue.length == 0) {
-                //client.say(target, '/me queue is empty!');
+                client.say(target, '/me queue is empty!');
                 console.log('/me queue is empty!');
             } else {
-                var chosen = queue[Math.floor(Math.random() * queue.length)];
-                //client.say(target, '/me the next one is ' + chosen);
+                var chosen = queue[0];
+                client.say(target, '/me the next one is ' + chosen);
                 console.log('/me the next one is ' + chosen);
                 const index = queue.indexOf(chosen);
                 queue.splice(index, 1);
@@ -62,42 +63,80 @@ function onMessageHandler(target, context, msg, self) {
         }
         console.log("queue");
         console.log(queue);
-    }
-    if (commandName === '!join') {
-        const index = queue.indexOf(user);
-        if (index == -1) {
-            //client.say(target, `/me @${user} have been added to the queue`);
-            console.log(`/me @${user} have been added to the queue`);
-            queue.push(user)
+    } else if (commandName === '!random') {
+        if (commandAllowed(context)) {
+            if (queue.length == 0) {
+                client.say(target, '/me queue is empty!');
+                console.log('/me queue is empty!');
+            } else {
+                var chosen = queue[Math.floor(Math.random() * queue.length)];
+                client.say(target, '/me the next one is ' + chosen);
+                console.log('/me the next one is ' + chosen);
+                const index = queue.indexOf(chosen);
+                queue.splice(index, 1);
+            }
         } else {
-            //client.say(target, `/me @${user} you are already on the queue`);
-            console.log(`/me @${user} you are already on the queue`);
+            console.log("not a mod nor broadcaster");
         }
         console.log("queue");
         console.log(queue);
-    }
-    if (commandName === '!list') {
-        //client.say(target, `/me @${user} !list is not implemeted yet. Type !join to check if you are on the queue`);
-        console.log(`/me @${user} !list is not implemeted yet. Type !join to check if you are on the queue`);
+    } else if (commandName === '!join') {
+        const index = queue.indexOf(user);
+        if(allowQueue) {
+            if (index == -1) {
+                client.say(target, `/me @${user} have been added to the queue - position: ${queue.length + 1}`);
+                console.log(`/me @${user} have been added to the queue - position: ${queue.length + 1}`);
+                queue.push(user)
+            } else {
+                client.say(target, `/me @${user} you are already on the queue - position: ${index + 1}`);
+                console.log(`/me @${user} you are already on the queue - position: ${index + 1}`);
+            }
+        } else {
+            client.say(target, `/me @${user}, sorry but the queue is currently closed`);
+        }
         console.log("queue");
         console.log(queue);
-    }
-    if (commandName === '!leave') {
+    } else if (commandName === '!list') {
+        client.say(target, `/me @${user} !list is not implemeted yet. Type !position to check if you are on the queue`);
+        console.log(`/me @${user} !list is not implemeted yet. Type !position to check if you are on the queue`);
+        console.log("queue");
+        console.log(queue);
+    } else if (commandName === '!position') {
+        const index = queue.indexOf(user);
+        if (index == -1) {
+            client.say(target, `/me @${user} you are not in the queue`);
+            console.log(`/me @${user} you are not in the queue`);
+        } else {
+            client.say(target, `/me @${user} you on the queue - position: ${index + 1}`);
+            console.log(`/me @${user} you on the queue - position: ${index + 1}`);
+        }
+    } else if (commandName === '!leave') {
         let user = context['username'];
         const index = queue.indexOf(user);
         if (index > -1) {
             queue.splice(index, 1);
-            //client.say(target, `/me @${user} you have been removed from the queue`);
+            client.say(target, `/me @${user} you have been removed from the queue`);
             console.log(`/me @${user} you have been removed from the queue`);
         }
         console.log("queue");
         console.log(queue);
-    }
-    if (commandName === '!clear') {
+    } else if (commandName === '!clear') {
         if (commandAllowed(context)) {
             queue = [];
-            //client.say(target, '/me the queue is now empty!');
+            client.say(target, '/me the queue is now empty!');
             console.log('/me the queue is now empty!');
+        }
+    } else if (commandName === '!close queue') {
+        if (commandAllowed(context)) {
+            allowQueue = false;
+            client.say(target, '/me the queue is now closed!');
+            console.log('/me the queue is now closed!');
+        }
+    } else if (commandName === '!open queue') {
+        if (commandAllowed(context)) {
+            allowQueue = false;
+            client.say(target, '/me the queue is now open!');
+            console.log('/me the queue is now open!');
         }
     }
     else {
