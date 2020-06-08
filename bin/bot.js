@@ -6,6 +6,7 @@ var opts = {
     debug: true,
   },
   identity: {
+    //username: "BotKing",
     username: "amazingdancingflames",
     password: `oauth:${process.env.AMAZINGDANCINGFLAMES_OAUTH}`,
   },
@@ -54,6 +55,10 @@ var helpList = [
   {
     command: "!leave",
     commandHelp: "the user will leave the queue",
+  },
+  {
+    command: "!queue",
+    commandHelp: "will show the current amout of users in the queue",
   },
 ];
 
@@ -135,6 +140,12 @@ function onMessageHandler(target, context, msg, self) {
           `/me  typing ${command.command} - ${command.commandHelp}`
         );
       }
+    }
+  } else if (commandName === "!queue") {
+    if (commandAllowed(context)) {
+      let plural = '';
+      if (queue.length != 1) plural = 's';
+      outputMessage(target, `/me there are currently ${queue.length} user${plural} on the queue`);
     }
   }
   // Public commands
