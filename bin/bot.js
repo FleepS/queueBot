@@ -97,7 +97,7 @@ function onMessageHandler(target, context, msg, self) {
         outputMessage(target, "/me queue is empty!");
       } else {
         var chosen = queue[0];
-        outputMessage(target, "/me the next one is " + chosen);
+        outputMessage(target, "/me the next one is @" + chosen);
         const index = queue.indexOf(chosen);
         queue.splice(index, 1);
       }
@@ -110,7 +110,7 @@ function onMessageHandler(target, context, msg, self) {
         outputMessage(target, "/me queue is empty!");
       } else {
         var chosen = queue[Math.floor(Math.random() * queue.length)];
-        outputMessage(target, "/me the next one is " + chosen);
+        outputMessage(target, "/me the next one is @" + chosen);
         const index = queue.indexOf(chosen);
         queue.splice(index, 1);
       }
@@ -145,7 +145,7 @@ function onMessageHandler(target, context, msg, self) {
     if (commandAllowed(context)) {
       let plural = '';
       if (queue.length != 1) plural = 's';
-      outputMessage(target, `/me there are currently ${queue.length} user${plural} on the queue`);
+      outputMessage(target, `/me there are currently ${queue.length} user${plural} on the queue.`);
     }
   }
   // Public commands
@@ -188,7 +188,7 @@ function onMessageHandler(target, context, msg, self) {
     } else {
       outputMessage(
         target,
-        `/me @${user} you on the queue - position: ${index + 1}`
+        `/me @${user} you are on the queue - position: ${index + 1}`
       );
     }
   } else if (commandName === "!leave") {
