@@ -1,8 +1,132 @@
+* {
+    box-sizing: border-box;
+    color: rgb(220, 221, 222);
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    font: 14px "Architects Daughter", Helvetica, Arial, sans-serif;
+    background-color: rgb(54, 57, 63);
+    
+    
+    overflow:hidden;
+}
+
+.main {
+    padding: 50px;
+    padding-bottom: 100px;
 }
 
 a {
-  color: #00B7FF;
+    color: rgb(220, 221, 222);
+}
+
+.flex {
+    display: flex;
+}
+
+.flex.align-items-center {
+    align-items: center;
+}
+
+h1 {
+    font-size: 52px;
+}
+
+.flex.dir-column {
+    flex-direction: column;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+/* questions page */
+
+#question_content h1,
+#question_content h4  {
+    margin: 0;
+}
+
+#question_content .discord-logo {
+    max-height: 50px;
+    width: auto;
+}
+
+#question_content .icon-container {
+    padding-right: 5px;
+    max-width: 200px;
+    
+}
+
+#question_content .icon-container img {
+    border: 4px solid #7289DA;
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+}
+
+#question_content .questions-container {
+    justify-content: space-between;
+}
+
+#question_content .questions-container .points-container {
+    width: 50%;
+    max-height: 350px;
+    overflow: auto;
+}
+
+#question_content .badges-container img{
+    margin-left: 5px;
+    height: 25px;
+    width: auto;
+}
+
+#question_content .fas.fa-crown {
+    color: rgba(116, 116, 0, 0.616);
+}
+
+#question_content .live-tream-container iframe {
+    border: 2px solid white;
+    -webkit-box-shadow: 10px 10px 39px 27px rgba(114, 137, 218, 1);
+    -moz-box-shadow: 10px 10px 39px 27px rgba(114, 137, 218, 1);
+    box-shadow: 10px 10px 39px 27px rgba(114, 137, 218, 1);
+}
+
+@media only screen and (max-width: 992px) {
+    #question_content .questions-container {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #question_content .live-tream-container {
+        align-self: center;
+        width: 80%;
+        height: 800px;
+    }
+
+    #question_content .live-tream-container iframe {
+        align-self: center;
+        margin-top: 50px;
+        width: 100%;
+        height: 100%
+    }
+}
+
+
+/* footer */
+
+.footer-container {
+    padding: 25px;
+    background-color: #7289DA;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
