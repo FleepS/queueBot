@@ -86,7 +86,7 @@ client.on("message", onMessageHandler);
 client.on("connected", onConnectedHandler);
 
 var maintenanceMode = (process.env.MAINTENANCE_MODE === 'true');
-if (maintenanceMode) {
+if (!maintenanceMode) {
   // Connect to Twitch:
   client.connect();
 }
