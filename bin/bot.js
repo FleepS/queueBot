@@ -307,6 +307,6 @@ function isUserSub(channel, context) {
 }
 
 function outputMessage(target, message) {
-  client.say(target, "--"+message);
+  client.say(target, message);
   console.log(message);
 }
