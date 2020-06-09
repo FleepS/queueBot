@@ -1,4 +1,5 @@
 const tmi = require("tmi.js");
+const prevent = require("../bin/prevent");
 //const interface = require();
 
 var opts = {
@@ -95,6 +96,8 @@ function onMessageHandler(target, context, msg, self) {
   if (self) {
     return;
   } // Ignore messages from the bot
+
+  prevent.preventSleep();
 
   // Remove whitespace from chat message
   const commandName = msg.trim();
@@ -307,3 +310,4 @@ function outputMessage(target, message) {
   client.say(target, message);
   console.log(message);
 }
+
