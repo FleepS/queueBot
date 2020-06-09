@@ -10,8 +10,12 @@ var opts = {
     username: "amazingdancingflames",
     password: `oauth:${process.env.AMAZINGDANCINGFLAMES_OAUTH}`,
   },
-  channels: ["bobinzzzz", "misterwillisgg"],
+  channels: [],
 };
+
+for (let channel of process.env.channels.replace(', ', ',').split(',')) {
+  opts['channels'].push(channel.toLowerCase());
+}
 
 var allowQueue = true;
 var queue = [];
