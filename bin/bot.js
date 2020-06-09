@@ -82,9 +82,11 @@ const client = new tmi.client(opts);
 client.on("message", onMessageHandler);
 client.on("connected", onConnectedHandler);
 
-// Connect to Twitch:
-client.connect();
-
+var maintenanceMode = (process.env.MAINTENANCE_MODE === 'true');
+if (maintenanceMode) {
+  // Connect to Twitch:
+  client.connect();
+}
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
   if (self) {
@@ -244,8 +246,8 @@ function userIsMod(context) {
 }
 
 function updateSubs(channel, context) {
+  let user = context["username"];
   if (isUserSub(channel, context)) {
-    let user = context["username"];
     if (!(channel['subscribers'].includes(user))) {
       channel['subscribers'].push(user);
     }
@@ -305,6 +307,6 @@ function isUserSub(channel, context) {
 }
 
 function outputMessage(target, message) {
-  client.say(target, message);
+  client.say(target, "--"+message);
   console.log(message);
 }
