@@ -13,7 +13,7 @@ var opts = {
   channels: [],
 };
 
-for (let channel of process.env.channels.replace(', ', ',').split(',')) {
+for (let channel of process.env.channels.split(", ").join(",").split(',')) {
   opts['channels'].push(channel.toLowerCase());
 }
 
@@ -25,10 +25,12 @@ for (let channel of opts["channels"]) {
     channel: channel,
     subscribers: [],
     queue: [],
+    allowQueue: true
   });
 }
 
 var helpList = [
+  /* // MODS ONLY
   {
     command: "!next",
     commandHelp: "will get you the next user in queue",
@@ -54,20 +56,21 @@ var helpList = [
     commandHelp: "will how you the help menu",
   },
   {
-    command: "!join",
-    commandHelp: "the user will join the queue",
-  },
-  {
     command: "!list",
     commandHelp: "dont implemented yet - type !position",
   },
+  */
+  {
+    command: "!join",
+    commandHelp: "you will join the queue.",
+  },
   {
     command: "!position",
-    commandHelp: "will show the users position on the queue",
+    commandHelp: "will show the users position on the queue.",
   },
   {
     command: "!leave",
-    commandHelp: "the user will leave the queue",
+    commandHelp: "you will leave the queue.",
   },
   {
     command: "!queue",
@@ -116,15 +119,11 @@ function onMessageHandler(target, context, msg, self) {
         queue.splice(index, 1);
       }
     }
-    console.log("queue");
-    console.log(queue);
   } else if (commandName === "!random") {
     if (commandAllowed(context)) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
-        var chosen = queue[Math.floor(Math.random() * queue.length)];
-        outputMessage(target, "/me the next one is @" + chosen);
         //var chosen = pickRandom(channel); // sub bonus random
         var chosen = queue[Math.floor(Math.random() * queue.length)]; // normal random
         outputMessage(target, "/me the next one is " + chosen);
@@ -132,8 +131,6 @@ function onMessageHandler(target, context, msg, self) {
         queue.splice(index, 1);
       }
     }
-    console.log("queue");
-    console.log(queue);
   } else if (commandName === "!clear") {
     if (commandAllowed(context)) {
       queue = [];
@@ -141,12 +138,12 @@ function onMessageHandler(target, context, msg, self) {
     }
   } else if (commandName === "!close queue") {
     if (commandAllowed(context)) {
-      allowQueue = false;
+      channel['allowQueue'] = false;
       outputMessage(target, "/me the queue is now closed!");
     }
   } else if (commandName === "!open queue") {
     if (commandAllowed(context)) {
-      allowQueue = true;
+      channel['allowQueue'] = true;
       outputMessage(target, "/me the queue is now open!");
     }
   } else if (commandName === "!help") {
@@ -154,7 +151,7 @@ function onMessageHandler(target, context, msg, self) {
       for (let command of helpList) {
         outputMessage(
           target,
-          `/me  typing ${command.command} - ${command.commandHelp}`
+          `/me typing ${command.command} - ${command.commandHelp}`
         );
       }
     }
@@ -165,11 +162,11 @@ function onMessageHandler(target, context, msg, self) {
       if (queue.length != 1) plural = "s";
       outputMessage(
         target,
-        `/me there are currently ${queue.length} user${plural} on the queue`
+        `/me currently the queue has ${queue.length} user${plural}.`
       );
   } else if (commandName === "!join") {
     const index = queue.indexOf(user);
-    if (allowQueue) {
+    if (channel['allowQueue']) {
       if (index == -1) {
         outputMessage(
           target,
@@ -202,7 +199,7 @@ function onMessageHandler(target, context, msg, self) {
   } else if (commandName === "!position") {
     const index = queue.indexOf(user);
     if (index == -1) {
-      outputMessage(target, `/me @${user} you are not in the queue`);
+      outputMessage(target, `/me @${user} you are not in the queue.`);
     } else {
       outputMessage(
         target,
@@ -216,7 +213,7 @@ function onMessageHandler(target, context, msg, self) {
       queue.splice(index, 1);
       outputMessage(
         target,
-        `/me @${user} you have been removed from the queue`
+        `/me @${user} you have been removed from the queue.`
       );
     }
     console.log("queue");
