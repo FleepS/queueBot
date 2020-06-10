@@ -2,9 +2,12 @@ const tmi = require("tmi.js");
 const prevent = require("../bin/prevent");
 //const interface = require();
 
+var maintenanceMode = (process.env.MAINTENANCE_MODE === 'true');
+var debugMode = (process.env.DEBUG_MODE === 'true');
+
 var opts = {
   options: {
-    debug: true,
+    debug: debugMode,
   },
   identity: {
     //username: "BotKing",
@@ -86,7 +89,7 @@ const client = new tmi.client(opts);
 client.on("message", onMessageHandler);
 client.on("connected", onConnectedHandler);
 
-var maintenanceMode = (process.env.MAINTENANCE_MODE === 'true');
+
 if (!maintenanceMode) {
   // Connect to Twitch:
   client.connect();
@@ -108,7 +111,7 @@ function onMessageHandler(target, context, msg, self) {
   let queue = channel["queue"];
   let user = context["username"];
 
-  updateSubs(channel, context);
+  //updateSubs(channel, context);
 
   // mod/broadcasters commands
   if (commandName === "!next") {
@@ -308,6 +311,6 @@ function isUserSub(channel, context) {
 
 function outputMessage(target, message) {
   client.say(target, message);
-  console.log(message);
+  console.log(`[${target}]:` + message);
 }
 
