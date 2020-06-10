@@ -114,6 +114,7 @@ function onMessageHandler(target, context, msg, self) {
   //updateSubs(channel, context);
 
   // mod/broadcasters commands
+  console.log(`<#${channelName}> [${user}]:` + msg);
   if (commandName === "!next") {
     if (commandAllowed(context)) {
       if (queue.length == 0) {
@@ -311,6 +312,6 @@ function isUserSub(channel, context) {
 
 function outputMessage(target, message) {
   client.say(target, message);
-  console.log(`[${target}]:` + message);
+  console.log(`<${target}> [QueueBOT]:` + message);
 }
 
