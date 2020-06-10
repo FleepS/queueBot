@@ -21,8 +21,6 @@ for (let channel of process.env.channels.split(", ").join(",").split(',')) {
   opts['channels'].push(channel.toLowerCase());
 }
 
-var allowQueue = true;
-var queues = [];
 var channels = [];
 for (let channel of opts["channels"]) {
   channels.push({
@@ -111,17 +109,22 @@ function onMessageHandler(target, context, msg, self) {
   let queue = channel["queue"];
   let user = context["username"];
 
-  //updateSubs(channel, context);
+  console.log(`<#${channelName}> [${user}]:` + msg);
+
+  updateSubs(channel, context);
 
   // mod/broadcasters commands
-  console.log(`<#${channelName}> [${user}]:` + msg);
   if (commandName === "!next") {
     if (commandAllowed(context)) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
-        var chosen = queue[0];
-        outputMessage(target, "/me the next one is @" + chosen);
+        let chosen = queue[0];
+        let subText = "";
+        if (isUserSub(channel, context)){
+          subText = "and he is a sub!";
+        }
+        outputMessage(target, `/me the next one is @${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         queue.splice(index, 1);
       }
@@ -131,9 +134,14 @@ function onMessageHandler(target, context, msg, self) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
+        let subText = "";
+        if (isUserSub(channel, context)){
+          subText = "and he is a sub!";
+        }
+
         //var chosen = pickRandom(channel); // sub bonus random
         var chosen = queue[Math.floor(Math.random() * queue.length)]; // normal random
-        outputMessage(target, "/me the next one is " + chosen);
+        outputMessage(target, `/me the next one is @${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         queue.splice(index, 1);
       }
@@ -194,15 +202,11 @@ function onMessageHandler(target, context, msg, self) {
         `/me @${user}, sorry but the queue is currently closed`
       );
     }
-    console.log("queue");
-    console.log(queue);
   } else if (commandName === "!list") {
     outputMessage(
       target,
       `/me @${user} !list is not implemeted yet. Type !position to check if you are on the queue`
     );
-    console.log("queue");
-    console.log(queue);
   } else if (commandName === "!position") {
     const index = queue.indexOf(user);
     if (index == -1) {
@@ -223,9 +227,10 @@ function onMessageHandler(target, context, msg, self) {
         `/me @${user} you have been removed from the queue.`
       );
     }
-    console.log("queue");
-    console.log(queue);
   }
+  
+  console.log("queue");
+  console.log(queue);
 }
 
 // Called every time the bot connects to Twitch chat
