@@ -19,16 +19,8 @@
             </div>
         </div>
 
-        <div class="live-tream-container">
-            <iframe
-                src="https://player.twitch.tv/?channel={{channel.channel}}&migration=true&parent=localhost&muted=true"
-                height="300"
-                width="400"
-                frameborder="0"
-                scrolling="no"
-                allowfullscreen="true"
-                autoplay="true">
-            </iframe>
+        <div id="twitch-iframe-container" class="live-tream-container">
+
         </div>
     </div>    
 
@@ -36,3 +28,19 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    var options = {
+        width: 400,
+        height: 300,
+        channel: "{{channel.channel}}",
+        // only needed if your site is also embedded on embed.example.com and othersite.example.com 
+        parent: ["localhost", "bobs-queue-bot.herokuapp.com"],
+        frameborder: 0,
+        muted: true,
+        autoplay: true,
+        allowfullscreen: true
+    };
+    var player = new Twitch.Player("twitch-iframe-container", options);
+    player.setVolume(0.5);
+</script>
