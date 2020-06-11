@@ -57,11 +57,11 @@ var helpList = [
     command: "!help",
     commandHelp: "will how you the help menu",
   },
+  */
   {
     command: "!list",
-    commandHelp: "dont implemented yet - type !position",
+    commandHelp: "will show you a url where you can check the queue",
   },
-  */
   {
     command: "!join",
     commandHelp: "you will join the queue.",
@@ -205,7 +205,7 @@ function onMessageHandler(target, context, msg, self) {
   } else if (commandName === "!list") {
     outputMessage(
       target,
-      `/me @${user} !list is not implemeted yet. Type !position to check if you are on the queue`
+      `/me @${user} you can find the current queue on: ${process.env.LOCAL_URL}/queues/${channelName}`
     );
   } else if (commandName === "!position") {
     const index = queue.indexOf(user);
