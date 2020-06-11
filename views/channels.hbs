@@ -41,10 +41,9 @@
         parent: ["localhost", "bobs-queue-bot.herokuapp.com"],
         frameborder: 0,
         muted: true,
-        autoplay: true,
         allowfullscreen: true
     };
     var player = new Twitch.Player("twitch-iframe-container", options);
-    player.setVolume(0.0);
-    player.play();
+    player.setMuted(true);
+    setTimeout(function(){ player.play(); }, 1500);
 </script>
