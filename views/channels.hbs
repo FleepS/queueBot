@@ -1,9 +1,24 @@
-<div id="channel_content">
+<div id="channel_content">  
     <div class=" flex align-items-center banner-container">
+        <div class="icon-container">
+            {{# if channel.icon }}
+            <img src="{{ channel.icon }}">
+            {{/if}}
+        </div>
         <div class="flex dir-column">
             <h1>Stream: <a href="//www.twitch.tv/{{channel.channel}}" target='_blank'>{{ channel.channel }}</a></h1>
+            {{# if channel.discord }}
+                <h4>
+                    <a class="flex align-items-center" href="{{ channel.discord }}" target='_blank'>
+                        <img class="discord-logo" src="/images/purplediscord.png">{{ channel.discord }}
+                    </a>
+                </h4>
+            {{/if}}
         </div>
     </div>
+        
+
+    <br>
         
 
     <br>

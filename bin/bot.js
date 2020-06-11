@@ -27,7 +27,9 @@ for (let channel of opts["channels"]) {
     channel: channel,
     subscribers: [],
     queue: [],
-    allowQueue: true
+    allowQueue: true,
+    icon: "icon.webp",
+    emote: "emote.png",
   });
 }
 

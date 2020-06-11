@@ -11,10 +11,18 @@ router.get('/:broadcaster', function(req, res, next) {
   }
 
   let render = {
-    channel: channel
+    channel: channel,
   };
-  console.log("- render -");
-  console.log(render);
+
+  let channelAssetsFolder = `./public/vendor/channels/${broadcaster}`;
+  if (fs.existsSync(channelAssetsFolder)) {
+    let icon = channelAssetsFolder.concat('/', `${channel.icon}`);
+    if (fs.existsSync(icon)) {
+      render['channel']['icon'] = `../vendor/channels/${broadcaster}/${channel.icon}`;;
+    }
+  } else {
+    render['channel']['icon'] = null;
+  }
 
   res.render('channels', render);
 });
