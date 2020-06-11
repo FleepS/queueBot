@@ -1,4 +1,4 @@
-<div id="question_content">
+<div id="channel_content">
     <div class=" flex align-items-center banner-container">
         <div class="flex dir-column">
             <h1>Stream: <a href="//www.twitch.tv/{{channel.channel}}" target='_blank'>{{ channel.channel }}</a></h1>
@@ -9,7 +9,10 @@
     <br>
     <div class="flex user-list-container">
         <div class="w-50">
-            <h3>Current queue:</h3>
+            <div class="flex justify-content-sbetween">
+                <h2>Current queue:</h2>
+                <a href="">Refresh list</a>
+            </div>
             <div class="users-container">
                 {{# each channel.queue as |user index|}}
                     <div class="flex align-items-center users">
@@ -42,5 +45,6 @@
         allowfullscreen: true
     };
     var player = new Twitch.Player("twitch-iframe-container", options);
-    player.setVolume(0.5);
+    player.setVolume(0.0);
+    player.play();
 </script>
