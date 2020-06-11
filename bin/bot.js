@@ -115,6 +115,8 @@ function onMessageHandler(target, context, msg, self) {
 
   updateSubs(channel, context);
 
+  console.log("commandName.substring(0, 5)");
+  console.log(commandName.substring(0, 5));
   // mod/broadcasters commands
   if (commandName === "!next") {
     if (commandAllowed(channel, context)) {
@@ -172,22 +174,37 @@ function onMessageHandler(target, context, msg, self) {
         );
       }
     }
-  } else if (commandName.includes("!kick")) {
+  } else if (commandName.substring(0, 5) === "!kick") {
     if (commandAllowed(channel, context)) {
+      let commandError = false;
       console.log("inside kick command");
-      let userToKick = commandName.replace("!kick @", "").split(' ')[0];
-      const index = queue.indexOf(userToKick);
-
-      if (index > -1) {
-        queue.splice(index, 1);
-        outputMessage(
-          target,
-          `/me BOP @${user} has been kicked from the queue.`
-        );
+      if(commandName.substring(0, 7) === '!kick @') {
+        let userToKick = commandName.replace("!kick @", "").split(' ')[0];
+        if (userToKick === "") {
+          commandError = true;
+        } else {
+          const index = queue.indexOf(userToKick);
+    
+          if (index > -1) {
+            queue.splice(index, 1);
+            outputMessage(
+              target,
+              `/me BOP @${userToKick} has been kicked from the queue.`
+            );
+          } else {
+            outputMessage(
+              target,
+              `/me @${userToKick} wasn't in the queue.`
+            );
+          }
+        }
       } else {
+        commandError = true;
+      }
+      if (commandError) {
         outputMessage(
           target,
-          `/me @${userToKick} wasn't in the queue.`
+          "/me the !kick command wasn't correct"
         );
       }
     }
