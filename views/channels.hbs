@@ -1,0 +1,38 @@
+<div id="question_content">
+    <div class=" flex align-items-center banner-container">
+        <div class="flex dir-column">
+            <h1>Stream: <a href="//www.twitch.tv/{{channel.channel}}" target='_blank'>{{ channel.channel }}</a></h1>
+        </div>
+    </div>
+        
+
+    <br>
+    <div class="flex user-list-container">
+        <div class="w-50">
+            <h3>Current queue:</h3>
+            <div class="users-container">
+                {{# each channel.queue as |user index|}}
+                    <div class="flex align-items-center users">
+                        <span>{{ user }} </span>
+                    </div>
+                {{/each }}
+            </div>
+        </div>
+
+        <div class="live-tream-container">
+            <iframe
+                src="https://player.twitch.tv/?channel={{channel.channel}}&migration=true&parent=localhost&muted=true"
+                height="300"
+                width="400"
+                frameborder="0"
+                scrolling="no"
+                allowfullscreen="true"
+                autoplay="true">
+            </iframe>
+        </div>
+    </div>    
+
+    <div class="socialmedia-footer">
+    </div>
+
+</div>

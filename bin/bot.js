@@ -21,7 +21,7 @@ for (let channel of process.env.channels.split(", ").join(",").split(',')) {
   opts['channels'].push(channel.toLowerCase());
 }
 
-var channels = [];
+channels = [];
 for (let channel of opts["channels"]) {
   channels.push({
     channel: channel,
@@ -121,7 +121,7 @@ function onMessageHandler(target, context, msg, self) {
       } else {
         let chosen = queue[0];
         let subText = "";
-        if (isUserSub(channel, context)){
+        if (belongsToSub(channel, chosen)){
           subText = "and he is a sub!";
         }
         outputMessage(target, `/me the next one is @${chosen} ${subText}`);
@@ -134,13 +134,13 @@ function onMessageHandler(target, context, msg, self) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
-        let subText = "";
-        if (isUserSub(channel, context)){
-          subText = "and he is a sub!";
-        }
-
         //var chosen = pickRandom(channel); // sub bonus random
         var chosen = queue[Math.floor(Math.random() * queue.length)]; // normal random
+        
+        var subText = "";
+        if (belongsToSub(channel, chosen)){
+          subText = "and he is a sub!";
+        }
         outputMessage(target, `/me the next one is @${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         queue.splice(index, 1);
@@ -292,6 +292,10 @@ function pickRandom(channel, context) {
   let chosen = _queue[Math.floor(Math.random() * _queue.length)];
 
   return chosen;
+}
+
+function belongsToSub (channel, user) {
+  return (channel['subscribers'].includes(user))
 }
 
 function isUserSub(channel, context) {

@@ -46,7 +46,7 @@ h1 {
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
-/* questions page */
+/* user-list page */
 
 #question_content h1,
 #question_content h4  {
@@ -71,11 +71,11 @@ h1 {
     height: auto;
 }
 
-#question_content .questions-container {
+#question_content .user-list-container {
     justify-content: space-between;
 }
 
-#question_content .questions-container .points-container {
+#question_content .user-list-container .users-container {
     width: 50%;
     max-height: 350px;
     overflow: auto;
@@ -99,7 +99,7 @@ h1 {
 }
 
 @media only screen and (max-width: 992px) {
-    #question_content .questions-container {
+    #question_content .user-list-container {
         flex-direction: column;
         justify-content: center;
     }
