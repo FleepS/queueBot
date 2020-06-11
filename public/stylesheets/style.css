@@ -138,3 +138,8 @@ h1 {
     display: flex;
     justify-content: space-between;
 }
+
+.footer-container  .fa-discord{
+    font-size: 30px;
+    margin-right: 10px;
+}
