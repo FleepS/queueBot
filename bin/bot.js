@@ -115,7 +115,7 @@ function onMessageHandler(target, context, msg, self) {
 
   // mod/broadcasters commands
   if (commandName === "!next") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
@@ -130,7 +130,7 @@ function onMessageHandler(target, context, msg, self) {
       }
     }
   } else if (commandName === "!random") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
@@ -147,22 +147,22 @@ function onMessageHandler(target, context, msg, self) {
       }
     }
   } else if (commandName === "!clear") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       queue = [];
       outputMessage(target, "/me the queue is now empty!");
     }
   } else if (commandName === "!close queue") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       channel['allowQueue'] = false;
       outputMessage(target, "/me the queue is now closed!");
     }
   } else if (commandName === "!open queue") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       channel['allowQueue'] = true;
       outputMessage(target, "/me the queue is now open!");
     }
   } else if (commandName === "!help") {
-    if (commandAllowed(context)) {
+    if (commandAllowed(channel, context)) {
       for (let command of helpList) {
         outputMessage(
           target,
@@ -170,7 +170,26 @@ function onMessageHandler(target, context, msg, self) {
         );
       }
     }
-  } 
+  } else if (commandName.includes("!kick")) {
+    if (commandAllowed(channel, context)) {
+      console.log("inside kick command");
+      let userToKick = commandName.replace("!kick @", "").split(' ')[0];
+      const index = queue.indexOf(userToKick);
+
+      if (index > -1) {
+        queue.splice(index, 1);
+        outputMessage(
+          target,
+          `/me BOP @${user} has been kicked from the queue.`
+        );
+      } else {
+        outputMessage(
+          target,
+          `/me @${userToKick} wasn't in the queue.`
+        );
+      }
+    }
+  }
   // Public commands
   else if (commandName === "!queue") {
       let plural = "";
@@ -218,7 +237,7 @@ function onMessageHandler(target, context, msg, self) {
       );
     }
   } else if (commandName === "!leave") {
-    let user = context["username"];
+    const user = context["username"];
     const index = queue.indexOf(user);
     if (index > -1) {
       queue.splice(index, 1);
@@ -238,17 +257,19 @@ function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
 }
 
-function commandAllowed(context) {
-  if (userIsMod(context)) return true;
+function commandAllowed(channel, context) {
+  if (userIsMod(channel, context)) return true;
   return false;
 }
 
-function userIsMod(context) {
+function userIsMod(channel, context) {
   let user = context["username"];
-  if (opts["channels"].includes("#" + user)) {
+  if (channel['channel'] === user) {
+    console.log("if channel['channel'] === user");
     return true;
   }
   if (context["user-type"] === "mod") {
+    console.log('context["user-type"] === "mod"');
     return true;
   }
   return false;
