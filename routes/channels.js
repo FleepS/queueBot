@@ -6,6 +6,10 @@ router.get('/:broadcaster', function(req, res, next) {
   let broadcaster = req.params.broadcaster;
   let channel = channels.find((element) => element["channel"] == broadcaster);
   
+  if (typeof channel === 'undefined') {
+    return res.status(302).redirect('/');
+  }
+
   let render = {
     channel: channel
   };
