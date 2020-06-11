@@ -7,8 +7,8 @@ var register = function(Handlebars) {
                 return opts.inverse(this);
             }
         },
-        foo: function(var1, var2) {
-            return "foo"
+        incitement: function (inindex) {
+            return inindex + 1
         }
     };
 

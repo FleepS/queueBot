@@ -85,8 +85,16 @@ h1 {
 
 #channel_content .user-list-container .users-container {
     width: 50%;
-    max-height: 350px;
+    max-height: 400px;
     overflow: auto;
+}
+
+#channel_content .user-list-container .users-container .user {
+    font-size: 17px;
+}
+
+#channel_content .user-list-container .users-container .user .queue-position {
+    width: 35px;
 }
 
 #channel_content .badges-container img{

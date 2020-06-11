@@ -10,13 +10,14 @@
     <div class="flex user-list-container">
         <div class="w-50">
             <div class="flex justify-content-sbetween">
-                <h2>Current queue:</h2>
+                <h2>Current queue ({{ channel.queue.length}}):</h2>
                 <a href="">Refresh list</a>
             </div>
             <div class="users-container">
                 {{# each channel.queue as |user index|}}
-                    <div class="flex align-items-center users">
-                        <span>{{ user }} </span>
+                    <div class="flex user">
+                        <span class="queue-position">{{incitement @index}}</span>
+                        <span> - {{ user }} </span>
                     </div>
                 {{/each }}
             </div>
