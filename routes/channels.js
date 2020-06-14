@@ -27,4 +27,21 @@ router.get('/:broadcaster', function(req, res, next) {
   res.render('channels', render);
 });
 
+router.get('/:broadcaster/next', function (req, res, next) {
+  let broadcaster = req.params.broadcaster;
+  let channel = channels.find((element) => element["channel"] == broadcaster);
+  
+  if (typeof channel === 'undefined') {
+    return res.status(302).redirect('/');
+  }
+
+  let user = "";
+  if (channel.queue.length > 0) user = channel.queue[0];
+  render = {
+    user: user
+  }
+  
+  res.render('next_queue', render );
+});
+
 module.exports = router;

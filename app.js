@@ -31,6 +31,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/queues', channelsRouter);
+app.get("*", function (req, res) {
+  if (req.accepts("html")) {
+    res.status(302).redirect("/");
+    return;
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
