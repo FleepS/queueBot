@@ -107,16 +107,12 @@ function onMessageHandler(target, context, msg, self) {
   //console.log(context);
 
   let channelName = target.replace("#", "");
-  var channel = channels.find((element) => element["channel"] == channelName);
+  let channel = channels.find((element) => element["channel"] == channelName);
   let queue = channel["queue"];
   let user = context["username"];
 
-  console.log(`<#${channelName}> [${user}]:` + msg);
-
   updateSubs(channel, context);
 
-  console.log("commandName.substring(0, 5)");
-  console.log(commandName.substring(0, 5));
   // mod/broadcasters commands
   if (commandName === "!next") {
     if (commandAllowed(channel, context)) {
@@ -130,7 +126,7 @@ function onMessageHandler(target, context, msg, self) {
         }
         outputMessage(target, `/me the next one is @${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
-        queue.splice(index, 1);
+        channel["queue"].splice(index, 1);
       }
     }
   } else if (commandName === "!random") {
@@ -147,12 +143,12 @@ function onMessageHandler(target, context, msg, self) {
         }
         outputMessage(target, `/me the next one is @${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
-        queue.splice(index, 1);
+        channel["queue"].splice(index, 1);
       }
     }
   } else if (commandName === "!clear") {
     if (commandAllowed(channel, context)) {
-      queue = [];
+      channel["queue"] = [];
       outputMessage(target, "/me the queue is now empty!");
     }
   } else if (commandName === "!close queue") {
@@ -186,7 +182,7 @@ function onMessageHandler(target, context, msg, self) {
           const index = queue.indexOf(userToKick);
     
           if (index > -1) {
-            queue.splice(index, 1);
+            channel["queue"].splice(index, 1);
             outputMessage(
               target,
               `/me BOP @${userToKick} has been kicked from the queue.`
@@ -224,10 +220,10 @@ function onMessageHandler(target, context, msg, self) {
         outputMessage(
           target,
           `/me @${user} has been added to the queue - position: ${
-            queue.length + 1
+            channel["queue"].length + 1
           }`
         );
-        queue.push(user);
+        channel["queue"].push(user);
       } else {
         outputMessage(
           target,
@@ -259,7 +255,7 @@ function onMessageHandler(target, context, msg, self) {
     const user = context["username"];
     const index = queue.indexOf(user);
     if (index > -1) {
-      queue.splice(index, 1);
+      channel["queue"].splice(index, 1);
       outputMessage(
         target,
         `/me @${user} you have been removed from the queue.`
@@ -267,8 +263,8 @@ function onMessageHandler(target, context, msg, self) {
     }
   }
   
-  console.log("queue");
-  console.log(queue);
+  console.log("channel['queue']");
+  console.log(channel["queue"]);
 }
 
 // Called every time the bot connects to Twitch chat
@@ -360,6 +356,7 @@ function isUserSub(channel, context) {
 }
 
 function outputMessage(target, message) {
+  //message = "--" + message; // dev only
   client.say(target, message);
   console.log(`<${target}> [QueueBOT]:` + message);
 }
