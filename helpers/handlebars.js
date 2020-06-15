@@ -7,6 +7,13 @@ var register = function(Handlebars) {
                 return opts.inverse(this);
             }
         },
+        if_neq: function(a, b, opts) {
+            if (a != b) {
+                return opts.fn(this);
+            } else {
+                return opts.inverse(this);
+            }
+        },
         incitement: function (inindex) {
             return inindex + 1
         }

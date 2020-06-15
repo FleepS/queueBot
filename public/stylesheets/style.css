@@ -51,7 +51,6 @@ h1 {
 }
 
 /* user-list page */
-
 #channel_content h1,
 #channel_content h4  {
     margin: 0;
@@ -134,9 +133,7 @@ h1 {
     }
 }
 
-
 /* footer */
-
 .footer-container {
     padding: 25px;
     background-color: #7289DA;

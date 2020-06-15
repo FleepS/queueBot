@@ -1,4 +1,7 @@
-<h1>Next on queue: {{ user }}</h1>
+
+{{#if_neq user "" }}
+    <h1>Next on queue: {{ user }}</h1>
+{{/if_neq}}
 
 
 <script>

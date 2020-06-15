@@ -38,7 +38,8 @@ router.get('/:broadcaster/next', function (req, res, next) {
   let user = "";
   if (channel.queue.length > 0) user = channel.queue[0];
   render = {
-    user: user
+    user: user,
+    layout: null
   }
   
   res.render('next_queue', render );

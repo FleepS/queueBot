@@ -4,13 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expHbs = require('express-handlebars');
-var hbsHelpers = require('./helpers/handlebars');
+var hbsHelpers = require("./helpers/handlebars");
 
 var hbs = expHbs.create({
-  extname: 'hbs',
-  defaultLayout: 'layout',
-  layoutsDir: __dirname + '/views/layouts',
-  helpers: hbsHelpers.helpers
+  extname: "hbs",
+  defaultLayout: "layout",
+  layoutsDir: __dirname + "/views/layouts",
+  helpers: hbsHelpers.helpers,
 });
 
 var indexRouter = require('./routes/index');
