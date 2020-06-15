@@ -259,8 +259,8 @@ function onMessageHandler(target, context, msg, self) {
     }
   }
   
-  console.log("channel['queue']");
-  console.log(channel["queue"]);
+  //console.log("channel['queue']");
+  //console.log(channel["queue"]);
 }
 
 // Called every time the bot connects to Twitch chat
@@ -335,19 +335,19 @@ function isUserSub(channel, context) {
 
   // check for broadcaster // needed?
   if (channel['channel'] === user) {
-    console.log(`${user} is the BROADCASTER!`);
+    //console.log(`${user} is the BROADCASTER!`);
     return true;
   }
 
   // check for subscriber
   if(context.badges) {
     if ('subscriber' in context.badges || 'founder' in context.badges) {
-      console.log(`${user} is a sub!`);
+      //console.log(`${user} is a sub!`);
       return true;
     }
   }
 
-  console.log(`${user} is NOT a sub!`);
+  //console.log(`${user} is NOT a sub!`);
   return false;
 }
 
