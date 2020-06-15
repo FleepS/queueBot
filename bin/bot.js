@@ -124,7 +124,7 @@ function onMessageHandler(target, context, msg, self) {
         if (belongsToSub(channel, chosen)){
           subText = "and he is a sub!";
         }
-        outputMessage(target, `/me the next one is @${chosen} ${subText}`);
+        outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         channel["queue"].splice(index, 1);
       }
@@ -141,7 +141,7 @@ function onMessageHandler(target, context, msg, self) {
         if (belongsToSub(channel, chosen)){
           subText = "and he is a sub!";
         }
-        outputMessage(target, `/me the next one is @${chosen} ${subText}`);
+        outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         channel["queue"].splice(index, 1);
       }
@@ -185,12 +185,12 @@ function onMessageHandler(target, context, msg, self) {
             channel["queue"].splice(index, 1);
             outputMessage(
               target,
-              `/me BOP @${userToKick} has been kicked from the queue.`
+              `/me BOP ${userToKick} has been kicked from the queue.`
             );
           } else {
             outputMessage(
               target,
-              `/me @${userToKick} wasn't in the queue.`
+              `/me ${userToKick} wasn't in the queue.`
             );
           }
         }
@@ -217,38 +217,34 @@ function onMessageHandler(target, context, msg, self) {
     const index = queue.indexOf(user);
     if (channel['allowQueue']) {
       if (index == -1) {
-        outputMessage(
-          target,
-          `/me @${user} has been added to the queue - position: ${
-            channel["queue"].length + 1
-          }`
-        );
+        //outputMessage( target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
+        outputMessage(target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
         channel["queue"].push(user);
       } else {
         outputMessage(
           target,
-          `/me @${user} you are already on the queue - position: ${index + 1}`
+          `/me ${user} you are already on the queue - position: ${index + 1}`
         );
       }
     } else {
       outputMessage(
         target,
-        `/me @${user}, sorry but the queue is currently closed`
+        `/me ${user}, sorry but the queue is currently closed`
       );
     }
   } else if (commandName === "!list") {
     outputMessage(
       target,
-      `/me @${user} you can find the current queue on: ${process.env.LOCAL_URL}/queues/${channelName}`
+      `/me ${user} you can find the current queue on: ${process.env.LOCAL_URL}/queues/${channelName}`
     );
   } else if (commandName === "!position") {
     const index = queue.indexOf(user);
     if (index == -1) {
-      outputMessage(target, `/me @${user} you are not in the queue.`);
+      outputMessage(target, `/me ${user} you are not in the queue.`);
     } else {
       outputMessage(
         target,
-        `/me @${user} you are on the queue - position: ${index + 1}`
+        `/me ${user} you are on the queue - position: ${index + 1}`
       );
     }
   } else if (commandName === "!leave") {
@@ -258,7 +254,7 @@ function onMessageHandler(target, context, msg, self) {
       channel["queue"].splice(index, 1);
       outputMessage(
         target,
-        `/me @${user} you have been removed from the queue.`
+        `/me ${user} you have been removed from the queue.`
       );
     }
   }
@@ -356,7 +352,13 @@ function isUserSub(channel, context) {
 }
 
 function outputMessage(target, message) {
-  //message = "--" + message; // dev only
+  message = message + "-- LOCAL"; // dev only
+
+  console.log("target");
+  console.log(target);
+  console.log("message");
+  console.log(message);
+
   client.say(target, message);
   console.log(`<${target}> [QueueBOT]:` + message);
 }

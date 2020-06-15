@@ -1,11 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+    {{> head }}
+    <title>{{ title }}</title>
+</head>
+<body>
 
-{{#if_neq user "" }}
-    <h1>Next on queue: {{ user }}</h1>
-{{/if_neq}}
+    <div class="main">
+        {{#if_neq user "" }}
+        <h1>Next on queue: <span id="user-name">{{ user }}</span></h1>
+        {{/if_neq}}
 
+        <style>
+            @font-face {
+                font-family: BurbankBigCondensed-Black;
+                src: url(/fonts/BurbankBigCondensed-Black.otf);
+            }
+            h1 {
+                color: #ee951c;
+                font-family: BurbankBigCondensed-Black;
+            }
 
-<script>
-    setInterval(function () {
-        location.reload();
-    }, 1500);
-</script>
+            #user-name {
+                color: #fce071;
+            }
+        </style>
+
+        <script>
+            setInterval(function () {
+                location.reload();
+            }, 1500);
+        </script>
+    </div>
+</body>
+</html>
