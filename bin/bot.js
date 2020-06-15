@@ -100,7 +100,7 @@ function onMessageHandler(target, context, msg, self) {
     return;
   } // Ignore messages from the bot
 
-  prevent.preventSleep();
+  //prevent.preventSleep();
 
   // Remove whitespace from chat message
   const commandName = msg.trim();
