@@ -38,11 +38,21 @@ router.get('/:broadcaster/next', function (req, res, next) {
   let user = "";
   if (channel.queue.length > 0) user = channel.queue[0];
   let render = {
+    local_url: process.env.LOCAL_URL,
+    broadcaster: broadcaster,
     user: user,
     layout: null
   }
-  
   res.render('next_queue', render );
+});
+
+router.get('/:broadcaster/api/next', function (req, res, next) {
+  let broadcaster = req.params.broadcaster;
+  let channel = channels.find((element) => element["channel"] == broadcaster);
+  let user = "";
+  if (channel.queue.length > 0) user = channel.queue[0];
+
+  res.send(user);
 });
 
 module.exports = router;

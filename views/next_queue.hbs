@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
     <meta charset="UTF-8">
     {{> head }}
     <title>{{ title }}</title>
 </head>
+
 <body>
 
     <div class="main">
-        {{#if_neq user "" }}
         <h1>Next on queue: <span id="user-name">{{ user }}</span></h1>
-        {{/if_neq}}
 
         <style>
             @font-face {
                 font-family: BurbankBigCondensed-Black;
                 src: url(/fonts/BurbankBigCondensed-Black.otf);
             }
+
             body {
                 background-color: rgba(255, 255, 255, 0)
             }
@@ -33,9 +34,21 @@
 
         <script>
             setInterval(function () {
-                location.reload();
+                $
+                var jqxhr = $.get(`{{local_url}}/queues/{{broadcaster}}/api/next`, function (data) {
+                }).done(function (data) {
+                    if (data == "") {
+                        $('h1').hide();
+                    } else {
+                        $('h1').show();
+                        $('#user-name').html(data);
+                    }
+                }).fail(function (data) {
+                    $('h1').hide();
+                })
             }, 1500);
         </script>
     </div>
 </body>
+
 </html>
