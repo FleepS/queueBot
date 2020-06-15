@@ -352,7 +352,7 @@ function isUserSub(channel, context) {
 }
 
 function outputMessage(target, message) {
-  message = message + "-- LOCAL"; // dev only
+  //message = message + "-- LOCAL"; // dev only
 
   console.log("target");
   console.log(target);
