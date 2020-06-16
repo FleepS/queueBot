@@ -30,6 +30,7 @@ for (let channel of opts["channels"]) {
     allowQueue: true,
     icon: "icon.webp",
     emote: "emote.png",
+    subBadge: "subBadge.png"
   });
 }
 
@@ -124,7 +125,7 @@ function onMessageHandler(target, context, msg, self) {
         if (belongsToSub(channel, chosen)){
           subText = "and he is a sub!";
         }
-        outputMessage(target, `/me the next one is ${chosen} ${subText}`);
+        //outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         channel["queue"].splice(index, 1);
       }
@@ -363,3 +364,7 @@ function outputMessage(target, message) {
   console.log(`<${target}> [QueueBOT]:` + message);
 }
 
+
+module.exports = {
+  belongsToSub: belongsToSub
+}

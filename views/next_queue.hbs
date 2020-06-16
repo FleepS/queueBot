@@ -10,7 +10,11 @@
 <body>
 
     <div class="main">
-        <h1>Next Game: <span id="user-name">{{ user }}</span></h1>
+        <div id="next-user-container" class="flex align-items-center">
+            <h1>Next Game:</h1>
+            <h1 id="user-name"></h1>
+            <img id="sub-badge" src="">
+        </div>
 
         <style>
             @font-face {
@@ -29,6 +33,7 @@
             }
 
             #user-name {
+                margin: 0 0px 0 10px;
                 color: #fce071;
             }
         </style>
@@ -38,14 +43,17 @@
                 $
                 var jqxhr = $.get(`{{local_url}}/queues/{{broadcaster}}/api/next`, function (data) {
                 }).done(function (data) {
-                    if (data == "") {
-                        $('h1').hide();
+                    if (data.user == null) {
+                        $('#next-user-container').hide();
                     } else {
                         $('h1').show();
-                        $('#user-name').html(data);
+                        $('#user-name').html(data.user);
+                        if (data.subBadge) {
+                            $('#sub-badge').attr("src", data.subBadge);
+                        }
                     }
                 }).fail(function (data) {
-                    $('h1').hide();
+                    $('#next-user-container').hide();
                 })
             }, 1500);
         </script>
