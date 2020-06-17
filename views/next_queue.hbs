@@ -49,7 +49,10 @@
                         $('h1').show();
                         $('#user-name').html(data.user);
                         if (data.subBadge) {
+                            $('#sub-badge').show();
                             $('#sub-badge').attr("src", data.subBadge);
+                        } else {
+                            $('#sub-badge').hide();
                         }
                     }
                 }).fail(function (data) {
