@@ -13,6 +13,7 @@ router.get('/:broadcaster', function(req, res, next) {
 
   let render = {
     channel: channel,
+    local_url: process.env.LOCAL_URL,
   };
 
   let channelAssetsFolder = `./public/vendor/channels/${broadcaster}`;
@@ -47,6 +48,45 @@ router.get('/:broadcaster/next', function (req, res, next) {
   res.render('next_queue', render );
 });
 
+
+// api routes
+router.get('/:broadcaster/api/list', function (req, res, next) {
+  console.log("on api/list");
+  let broadcaster = req.params.broadcaster;
+  let channel = channels.find((element) => element["channel"] == broadcaster);
+  console.log("broadcaster");
+  console.log(broadcaster);
+  console.log("channel");
+  console.log(channel);
+  
+  if (typeof channel === 'undefined') {
+    return res.status(302).redirect('/');
+  }
+
+  let queueWithSub = [];
+
+  for(user of channel.queue){
+    let sub = false;
+    if (bot.belongsToSub(channel, user)) {
+      sub = true;
+    }
+    queueWithSub.push({
+      name: user,
+      sub: sub
+    });
+  }
+
+
+  let render = {
+    queue: queueWithSub,
+    subBadgePath: getAssetPath(broadcaster, channel.subBadge)
+  };
+
+  res.send(render);
+
+});
+
+
 router.get('/:broadcaster/api/next', function (req, res, next) {
   let broadcaster = req.params.broadcaster;
   let channel = channels.find((element) => element["channel"] == broadcaster);
@@ -58,7 +98,6 @@ router.get('/:broadcaster/api/next', function (req, res, next) {
   if (channel.queue.length > 0) {
     data['user'] = channel.queue[0];
     if (bot.belongsToSub(channel, data['user'])) {
-      console.log("SUUUUUUB BIIIATCHES");
       let path = getAssetPath(broadcaster, channel.subBadge)
       if (path) {
         let icon = `<img src=${path}>`;

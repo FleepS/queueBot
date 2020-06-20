@@ -96,6 +96,11 @@ h1 {
     width: 35px;
 }
 
+#channel_content .user-list-container .users-container .sub-badge {
+    height: 25px;
+    margin-left: 15px;
+}
+
 #channel_content .badges-container img{
     margin-left: 5px;
     height: 25px;

@@ -1,4 +1,4 @@
-<div id="channel_content">  
+<div id="channel_content">
     <div class=" flex align-items-center banner-container">
         <div class="icon-container">
             {{# if channel.icon }}
@@ -8,11 +8,11 @@
         <div class="flex dir-column">
             <h1>Stream: <a href="//www.twitch.tv/{{channel.channel}}" target='_blank'>{{ channel.channel }}</a></h1>
             {{# if channel.discord }}
-                <h4>
-                    <a class="flex align-items-center" href="{{ channel.discord }}" target='_blank'>
-                        <img class="discord-logo" src="/images/purplediscord.png">{{ channel.discord }}
-                    </a>
-                </h4>
+            <h4>
+                <a class="flex align-items-center" href="{{ channel.discord }}" target='_blank'>
+                    <img class="discord-logo" src="/images/purplediscord.png">{{ channel.discord }}
+                </a>
+            </h4>
             {{/if}}
         </div>
     </div>
@@ -22,29 +22,57 @@
         <div class="w-50">
             <div class="flex justify-content-sbetween">
                 <h2>Current queue ({{ channel.queue.length}}):</h2>
-                <a href="">Refresh list</a>
+                <a href="#" onclick="refreshList()">Refresh list</a>
             </div>
-            <div class="users-container">
-                {{# each channel.queue as |user index|}}
-                    <div class="flex user">
-                        <span class="queue-position">{{incitement @index}}</span>
-                        <span> - {{ user }} </span>
-                    </div>
-                {{/each }}
-            </div>
+            <div class="users-container"></div>
         </div>
 
         <div id="twitch-iframe-container" class="live-tream-container">
 
         </div>
-    </div>    
+    </div>
 
     <div class="socialmedia-footer">
     </div>
 
 </div>
+<script>
+    $(document).ready(function(){
+        refreshList();
+    });
+</script>
 
 <script type="text/javascript">
+    let iconPath = "{{ channel.icon }}";
+
+    // refresh list
+    let refreshList = () => {
+        let jqxhr = $.get(`{{local_url}}/queues/{{channel.channel}}/api/list`, function (data) {
+        }).done(function (data) {
+            console.log(data);
+            let badgeImagePath;
+            if (data.subBadgePath == null) { badgeImagePath = iconPath; }
+            else { badgeImagePath = data.subBadgePath; }
+
+            $('.users-container').html("");
+            data.queue.forEach(function (user, i) {
+                let badgeImage = null;
+                if (user.sub) { badgeImage = $(`<img class='sub-badge' src='${badgeImagePath}'></img>`);}
+                $('.users-container').append(
+                    $('<div class="flex user"></div>').append(
+                        $('<span class="queue-position"></span>').html(i + 1 ),
+                        $('<span></span>').html( `- ${user.name} `),
+                        badgeImage
+                    )
+                );
+                
+            })            
+        }).fail(function (data) {
+            console.log("ERROR - Try again");
+        })
+    };
+
+    // twitch video player
     var options = {
         width: 400,
         height: 300,
@@ -57,5 +85,5 @@
     };
     var player = new Twitch.Player("twitch-iframe-container", options);
     player.setMuted(true);
-    setTimeout(function(){ player.play(); }, 1500);
+    setTimeout(function () { player.play(); }, 1500);
 </script>
