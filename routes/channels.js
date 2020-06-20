@@ -51,13 +51,8 @@ router.get('/:broadcaster/next', function (req, res, next) {
 
 // api routes
 router.get('/:broadcaster/api/list', function (req, res, next) {
-  console.log("on api/list");
   let broadcaster = req.params.broadcaster;
   let channel = channels.find((element) => element["channel"] == broadcaster);
-  console.log("broadcaster");
-  console.log(broadcaster);
-  console.log("channel");
-  console.log(channel);
   
   if (typeof channel === 'undefined') {
     return res.status(302).redirect('/');
