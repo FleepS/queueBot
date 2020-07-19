@@ -125,7 +125,7 @@ function onMessageHandler(target, context, msg, self) {
         if (belongsToSub(channel, chosen)){
           subText = "and he is a sub!";
         }
-        //outputMessage(target, `/me the next one is ${chosen} ${subText}`);
+        outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
         channel["queue"].splice(index, 1);
       }
