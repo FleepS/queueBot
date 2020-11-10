@@ -10,10 +10,20 @@
 <body>
 
     <div class="main">
-        <div id="next-user-container" class="flex align-items-center">
-            <h1>Next Game:</h1>
-            <h1 id="user-name"></h1>
-            <img id="sub-badge" src="">
+        <div id="next-user-container" class="flex align-items-center container_1">
+            <h1 id="label_1">Next Game:</h1>
+            <h1 id="user-name_1"></h1>
+            <img id="sub-badge_1" src="">
+        </div>
+        <div id="next-user-container" class="flex align-items-center container_2">
+            <h1 id="label_2">Next Game:</h1>
+            <h1 id="user-name_2"></h1>
+            <img id="sub-badge_2" src="">
+        </div>
+        <div id="next-user-container" class="flex align-items-center container_3">
+            <h1 id="label_3">Next Game:</h1>
+            <h1 id="user-name_3"></h1>
+            <img id="sub-badge_3" src="">
         </div>
 
         <style>
@@ -23,16 +33,17 @@
             }
 
             body {
-                background-color: rgba(255, 255, 255, 0)
+                background-color: rgba(255, 255, 255, 0);
             }
 
             h1 {
+                margin: 12px 0;
                 color: #ee951c;
                 font-family: BurbankBigCondensed-Black;
                 -webkit-text-stroke: 2px black; /* width and color */
             }
 
-            #user-name {
+            #user-name_1, #user-name_2, #user-name_3 {
                 margin: 0 0px 0 10px;
                 color: #fce071;
             }
@@ -43,16 +54,59 @@
                 $
                 var jqxhr = $.get(`{{local_url}}/queues/{{broadcaster}}/api/next`, function (data) {
                 }).done(function (data) {
-                    if (data.user == null) {
-                        $('#next-user-container').hide();
-                    } else {
-                        $('h1').show();
-                        $('#user-name').html(data.user);
-                        if (data.subBadge) {
-                            $('#sub-badge').show();
-                            $('#sub-badge').attr("src", data.subBadge);
+                    console.log(data);
+                    let user_1_found = true;
+                    let user_2_found = true;
+                    let user_3_found = true;
+                    if (data.user1 == null) {
+                        $('.container_1').hide();
+                        user_1_found = false;
+                        user_2_found = false;
+                        user_3_found = false;
+                    } 
+                    if (data.user2 == null) {
+                        $('.container_2').hide();
+                        user_2_found = false;
+                        user_3_found = false;
+                    } 
+                    if (data.user3 == null) {
+                        $('.container_3').hide();
+                        user_3_found = false;
+                    } 
+
+                    if (user_1_found) {
+                        $('.container_1').show();
+                        $('#label_1').show();
+                        $('#user-name_1').html(data.user1);
+                        if (data.subBadge1) {
+                            $('#sub-badge_1').show();
+                            $('#sub-badge_1').attr("src", data.subBadge1);
                         } else {
-                            $('#sub-badge').hide();
+                            $('#sub-badge_1').hide();
+                        }
+                    }
+
+                    if (user_2_found) {
+                        $('.container_2').show();
+                        $('#label_2').show();
+                        $('#user-name_2').html(data.user2);
+                        if (data.subBadge2) {
+                            $('#sub-badge_2').show();
+                            $('#sub-badge_2').attr("src", data.subBadge2);
+                        } else {
+                            $('#sub-badge_2').hide();
+                        }
+                    }
+
+                    if (user_3_found) {
+                        $('.container_3').show();
+                        $('#label_3').show();
+                        $('#user-name_3').html(data.user3);
+                        if (data.subBadge3) {
+                            $('#sub-badge_3').show();
+                            $('#sub-badge_3').attr("src", data.subBadge3);
+                        } else {
+                            $('#sub-badge_3').hide();
                         }
                     }
                 }).fail(function (data) {

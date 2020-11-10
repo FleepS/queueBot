@@ -123,7 +123,7 @@ function onMessageHandler(target, context, msg, self) {
         let chosen = queue[0];
         let subText = "";
         if (belongsToSub(channel, chosen)){
-          subText = "and he is a sub!";
+          subText = "and they are a sub!";
         }
         outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);
@@ -140,7 +140,7 @@ function onMessageHandler(target, context, msg, self) {
         
         var subText = "";
         if (belongsToSub(channel, chosen)){
-          subText = "and he is a sub!";
+          subText = "and they are a sub!";
         }
         outputMessage(target, `/me the next one is ${chosen} ${subText}`);
         const index = queue.indexOf(chosen);

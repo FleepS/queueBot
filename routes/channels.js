@@ -86,17 +86,42 @@ router.get('/:broadcaster/api/next', function (req, res, next) {
   let broadcaster = req.params.broadcaster;
   let channel = channels.find((element) => element["channel"] == broadcaster);
   let data = {
-    user: null,
-    subBadge: null
+    user1: null,
+    user2: null,
+    user3: null,
+    subBadge1: null,
+    subBadge2: null,
+    subBadge3: null
   };
   
   if (channel.queue.length > 0) {
-    data['user'] = channel.queue[0];
-    if (bot.belongsToSub(channel, data['user'])) {
+    data['user1'] = channel.queue[0];
+    if (channel.queue.length > 1) {
+    data['user2'] = channel.queue[1];
+    }
+    if (channel.queue.length > 2) {
+    data['user3'] = channel.queue[2];
+    }
+    if (bot.belongsToSub(channel, data['user1']) || true ) {
+      let path = getAssetPath(broadcaster, channel.subBadge)
+      console.log("PATH" + path);
+      if (path) {
+        let icon = `<img src=${path}>`;
+        data['subBadge1'] = path;
+      }
+    }
+    if (bot.belongsToSub(channel, data['user2']) || true ) {
       let path = getAssetPath(broadcaster, channel.subBadge)
       if (path) {
         let icon = `<img src=${path}>`;
-        data['subBadge'] = path;
+        data['subBadge2'] = path;
+      }
+    }
+    if (bot.belongsToSub(channel, data['user3']) || true ) {
+      let path = getAssetPath(broadcaster, channel.subBadge)
+      if (path) {
+        let icon = `<img src=${path}>`;
+        data['subBadge3'] = path;
       }
     }
   }
