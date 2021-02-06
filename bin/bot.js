@@ -30,7 +30,8 @@ for (let channel of opts["channels"]) {
     allowQueue: true,
     icon: "icon.webp",
     emote: "emote.png",
-    subBadge: "subBadge.png"
+    subBadge: "subBadge.png",
+    subOnly: false
   });
 }
 
@@ -171,17 +172,21 @@ function onMessageHandler(target, context, msg, self) {
         );
       }
     }
+  } else if (commandName === "!info") {
+    if (commandAllowed(channel, context)) {
+      console.log(channel);
+    }
   } else if (commandName.substring(0, 5) === "!kick") {
     if (commandAllowed(channel, context)) {
       let commandError = false;
       console.log("inside kick command");
-      if(commandName.substring(0, 7) === '!kick @') {
+      if (commandName.substring(0, 7) === '!kick @') {
         let userToKick = commandName.replace("!kick @", "").split(' ')[0];
         if (userToKick === "") {
           commandError = true;
         } else {
           const index = queue.indexOf(userToKick);
-    
+
           if (index > -1) {
             channel["queue"].splice(index, 1);
             outputMessage(
@@ -205,6 +210,15 @@ function onMessageHandler(target, context, msg, self) {
         );
       }
     }
+  } else if (commandName === "!subonly") {
+    if (commandAllowed(channel, context)) {
+      channel['subOnly'] = !channel['subOnly'];
+      status = channel['subOnly'] == true ? " subs only" : "open to all";
+      outputMessage(
+        target,
+        `/me The queue is now ${status}`
+      );
+    }
   }
   // Public commands
   else if (commandName === "!queue") {
@@ -217,14 +231,21 @@ function onMessageHandler(target, context, msg, self) {
   } else if (commandName === "!join") {
     const index = queue.indexOf(user);
     if (channel['allowQueue']) {
-      if (index == -1) {
-        //outputMessage( target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
-        outputMessage(target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
-        channel["queue"].push(user);
+      if ((!channel['subOnly']) || (channel['subOnly'] && belongsToSub(channel, user))) {
+        if (index == -1) {
+          //outputMessage( target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
+          outputMessage(target, `/me ${user} has been added to the queue - position: ${channel["queue"].length + 1}`);
+          channel["queue"].push(user);
+        } else {
+          outputMessage(
+            target,
+            `/me ${user} you are already on the queue - position: ${index + 1}`
+          );
+        }
       } else {
         outputMessage(
           target,
-          `/me ${user} you are already on the queue - position: ${index + 1}`
+          `/me ${user}, sorry but the queue is currently only for subs.`
         );
       }
     } else {
@@ -361,7 +382,7 @@ function outputMessage(target, message) {
   console.log(message);
 
   client.say(target, message);
-  console.log(`<${target}> [QueueBOT]:` + message);
+  console.log(`- <${target}> [QueueBOT]:` + message);
 }
 
 
