@@ -174,11 +174,12 @@ function onMessageHandler(target, context, msg, self) {
     }
   } else if (commandName === "!hello") {
     if (commandAllowed(channel, context)) {
-      console.log(channel);
+      outputMessage(target, `/me Hello ${user} just to tell you I am here for you <3`);
     }
   } else if (commandName === "!info") {
     if (commandAllowed(channel, context)) {
-      outputMessage(target, `/me Hello ${user} just to tell you I am here for you <3`);
+      outputMessage(target, `/me Sorry ${user}, this comman is still not implemented.. complains to Bobinzzzz `);
+      console.log(channel);
     }
   } else if (commandName.substring(0, 5) === "!kick") {
     if (commandAllowed(channel, context)) {
