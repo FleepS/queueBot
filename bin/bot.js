@@ -31,6 +31,7 @@ for (let channel of opts["channels"]) {
     icon: "icon.webp",
     emote: "emote.png",
     subBadge: "subBadge.png",
+    subLucky: false,
     subOnly: false
   });
 }
@@ -136,8 +137,14 @@ function onMessageHandler(target, context, msg, self) {
       if (queue.length == 0) {
         outputMessage(target, "/me queue is empty!");
       } else {
+
         //var chosen = pickRandom(channel); // sub bonus random
         var chosen = queue[Math.floor(Math.random() * queue.length)]; // normal random
+        if ((channel['subLucky'])) { // Sub perk
+          if (!belongsToSub(channel, chosen)) {
+            chosen = queue[Math.floor(Math.random() * queue.length)]; // normal random
+          }
+        }
         
         var subText = "";
         if (belongsToSub(channel, chosen)){
@@ -222,6 +229,15 @@ function onMessageHandler(target, context, msg, self) {
       outputMessage(
         target,
         `/me The queue is now ${status}`
+      );
+    }
+  } else if (commandName === "!sublucky") {
+    if (commandAllowed(channel, context)) {
+      channel['subLucky'] = !channel['subLucky'];
+      status = channel['subLucky'] == true ? "Subs are now lucky." : "Everyone has the same chances now.";
+      outputMessage(
+        target,
+        `/me ${status}`
       );
     }
   }
