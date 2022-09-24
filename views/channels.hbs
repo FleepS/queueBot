@@ -77,7 +77,7 @@
         height: 300,
         channel: "{{channel.channel}}",
         // only needed if your site is also embedded on embed.example.com and othersite.example.com 
-        parent: ["localhost", "bobs-queue-bot.herokuapp.com"],
+        parent: ["localhost", `${process.env.LOCAL_URL}`],
         frameborder: 0,
         muted: true,
         allowfullscreen: true

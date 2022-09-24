@@ -12,7 +12,7 @@ module.exports = {
     if (diff > 1.0 ){
       last_prevent = now;
       https
-      .get("https://bobs-queue-bot.herokuapp.com/", (resp) => {
+      .get(`${process.env.LOCAL_URL}`, (resp) => {
         let data = "";
 
         // A chunk of data has been recieved.
